@@ -1,5 +1,5 @@
 <?php
-namespace Fwk\Test;
+namespace fwk;
 
 require_once(__DIR__.'/../autoloader.php');
 $_SERVER['DOCUMENT_ROOT']  = __DIR__.'/../..';
