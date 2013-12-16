@@ -66,13 +66,15 @@ class Fwk_Router {
 
     $controllerPath = $controllersRoot;
     $iCounter = 0;
+    $namespace = 'controllers\\';
 
     while ($iCounter < (count($path) - 2)) {
       $controllerPath .= '/'.$path[$iCounter];
+      $namespace .= $path[$iCounter].'\\';
       $iCounter++;
     }
     $this->controllerFile = $controllerPath."/".$path[$iCounter].".php";
-    $this->className = "controllers\\Controllers_".$path[$iCounter];
+    $this->className = $namespace."Controllers_".$path[$iCounter];
     $this->action = $path[count($path) -1];
     if ($this->action == '') {
       $this->action = 'index';

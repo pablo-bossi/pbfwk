@@ -40,7 +40,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
       array('/pais/argentina/viajar', __DIR__.'/../../controllers/countries.php', 'controllers\Controllers_Countries', 'go', array('user' => 1, 'param1' => 'viajar', 'country' => 'argentina')),
       array('/user/', $_SERVER["DOCUMENT_ROOT"].'/controllers/user.php', 'controllers\Controllers_user', 'index', array('user' => 1)),
       array('/user/list', $_SERVER["DOCUMENT_ROOT"].'/controllers/user.php', 'controllers\Controllers_user', 'list', array('user' => 1)),
-      array('/user/customer/list', $_SERVER["DOCUMENT_ROOT"].'/controllers/user/customer.php', 'controllers\Controllers_customer', 'list', array('user' => 1)),
+      array('/user/customer/list', $_SERVER["DOCUMENT_ROOT"].'/controllers/user/customer.php', 'controllers\user\Controllers_customer', 'list', array('user' => 1)),
     );
   }
 }
