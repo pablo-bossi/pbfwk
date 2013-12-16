@@ -29,11 +29,11 @@ class Fwk_View
 
      if ($this->masterPage != null) {
         $this->childModule = strtolower($this->viewName);
-        include('templates/masters/'.strtolower($this->masterPage).'.php');
+        include(__DIR__.'/../templates/masters/'.strtolower($this->masterPage).'.php');
         unset($this->childModule);
      } else {
         //Include view file
-        include('templates/'.strtolower($this->viewName).'.php');
+        include(__DIR__.'/../templates/'.strtolower($this->viewName).'.php');
      }
      $content = ob_get_contents(); 
      ob_end_clean();
@@ -43,7 +43,7 @@ class Fwk_View
 
   public function renderSubModule($moduleName, $params = null)
   {
-     $moduleView = new View($moduleName, $this->variables);
+     $moduleView = new Fwk_View($moduleName, $this->variables);
      if ($params !== null) {
         foreach ($params as $key => $value) {
           $moduleView->$key = $value;
@@ -71,7 +71,7 @@ class Fwk_View
     }
   }
   
-  public function setGlobal($key, $value) {
+  public static function setGlobal($key, $value) {
     //Used to set variables which will be required on every view and are available before view creation (I.E: logged In User)
     self::$generalVariables[$key] = $value;
   }

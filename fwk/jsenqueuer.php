@@ -28,9 +28,9 @@ class Fwk_JsEnqueuer
         $scriptAttrs .= $attrib .'="'.$value.'" ';
       }
     }
-    if ($type == JS_FILE) {
+    if ($type == self::JS_FILE) {
         $this->chunks[] = '<script type="text/javascript" src="'.$content.'" '.$scriptAttrs.'></script>';
-    } elseif ($type == JS_CODE) {
+    } elseif ($type == self::JS_CODE) {
         $this->chunks[] = '<script type="text/javascript" '.$scriptAttrs.'>'.$content.'</script>';
     }
   }
