@@ -1,6 +1,11 @@
 <?php
 namespace fwk;
 
+/**
+* This class is a performance helper for HTML, for performance matters as long as possible js code should be sent to the bottom of the HTML
+* This class allows to enqueue pieces of scripting in the templates to be rendered before the html closing tag
+* @author Pablo Bossi
+*/
 class Fwk_JsEnqueuer
 {
   const JS_FILE = 1;
@@ -9,6 +14,10 @@ class Fwk_JsEnqueuer
   private static $instance = null;
   private $chunks = array();
   
+  /**
+  * The enqueuer is implemented as a singleton, this method allows the obtention of the instance storing the scripts
+  * @returns Fwk_JsEnqueuer Object
+  */
   public static function getInstance() {
     if (self::$instance == null) {
       self::$instance = new Fwk_JsEnqueuer();
@@ -16,10 +25,20 @@ class Fwk_JsEnqueuer
     return self::$instance;
   }
   
+  /**
+  * Creates a JSEnqueuer object
+  * @returns Fwk_JsEnqueuer object
+  */
   private function __construct() {
     $this->chunks = array();
   }
 
+  /**
+  * Method to enqueue a script to be shown before the end of the document
+  * @param Int Fwk_JsEnqueuer::JS_FILE or Fwk_JsEnqueuer::JS_CODE indicating wether the script is a file inclusion or a code snippet
+  * @param String $content url of the file or code snippet to be enqueued
+  * @param Array $attributes list of extra attributes to be added to the script tag (IE: 'encoding' => 'utf8')
+  */
   public function enqueue($type, $content, $attributes = array())
   {
     $scriptAttrs = "";
@@ -35,6 +54,9 @@ class Fwk_JsEnqueuer
     }
   }
   
+  /**
+  * Method which prints all the enqueued scripts and empties the list of scripts to avoid double printing of the scripts
+  */
   public function flushAll() {
     foreach ($this->chunks as $chunk) {
       echo $chunk;
@@ -42,6 +64,9 @@ class Fwk_JsEnqueuer
     $this->clean();
   }
   
+  /**
+  * Method which removes all the enqueued sripts
+  */
   public function clean() {
     $done = false;
     while (! $done) {

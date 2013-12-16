@@ -11,12 +11,6 @@ class Fwk_Router {
   private $action;
   private $params;
 
-  /*@Description: Parses the url to locate proper controller and method to handle the request
-    Url Pattern: /controllerName/action?param1=name1&param2=name2
-    @params: 
-      $uri: Url browsed by the user
-      $$controllersRoot: base directory for controllers
-  */
   /**
   * Parses the url to locate proper controller and method to handle the requested
   * The default url pattern looks like: [/folder1]...[/foldern]/controllerName/action?param1=name1&param2=name2
