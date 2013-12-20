@@ -1,9 +1,7 @@
-function validateField(event) {
-  this.event = event;
+function validateField() {
   
-  this.validate = function (event) {
+  this.validate = function (targetElement) {
 
-    var targetElement = $(event.target);
     var requiredvalidations = targetElement.attr('validation');
     var validations = requiredvalidations.split(' ');
     var error = '';
@@ -94,6 +92,14 @@ function validateField(event) {
     }
     return error;
   }
+
+  this.email = function (element) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (! re.test(element.val())) {
+      return errorEmail.replace('[%fieldname%]', name);
+    }
+    return '';
+  }
   
 
   function isNumber(element) {
@@ -101,7 +107,7 @@ function validateField(event) {
     var value = element.val();
     var name = element.attr('name');
     
-    var pattern = '/[^0-9.,]+/';
+    var pattern = '/[^0-9., ]+/';
     if (isNaN(value)) {
       return errorNumber.replace('[%fieldname%]', name);
     } else {
@@ -137,7 +143,7 @@ function validateField(event) {
 
 $(document).ready(function() {
   $("[validation]").blur(function(event) {
-    var validator = new validateField(event);
-    validator.validate(event);
+    var validator = new validateField();
+    validator.validate($(event.target));
   });
 });
