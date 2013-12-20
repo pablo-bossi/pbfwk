@@ -17,4 +17,13 @@ class Controllers_main extends Fwk\Fwk_Controller {
     $this->response->setHeader("Content-Type", "text/html; charset=utf-8");
     $this->response->setBody($view->render());
   }
+  
+  public function jsvalidators($params) {
+    $viewName = "validationtest";
+    $view = new Fwk\Fwk_View($viewName);
+  
+    $this->response->setResponseCode("200");
+    $this->response->setHeader("Content-Type", "text/html; charset=utf-8");
+    $this->response->setBody($view->render());
+  }
 }

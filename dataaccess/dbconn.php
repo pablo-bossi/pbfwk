@@ -1,5 +1,5 @@
 <?php
-namespace pinbooster\fwk\dataaccess;
+namespace fwk\dataaccess;
 
 /**
 * This file includes all the classes required to manage connections and queries against the DB

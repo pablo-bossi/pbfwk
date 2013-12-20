@@ -1,5 +1,5 @@
 <?php
-namespace pinbooster\fwk\dataaccess;
+namespace fwk\dataaccess;
 
 include_once($_SERVER["DOCUMENT_ROOT"]."/config/cacheconf.php");
 
