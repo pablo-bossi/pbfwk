@@ -1,5 +1,25 @@
 function validateField() {
   
+  this.checkForm = function (formId) {
+    var inputs = $('form#' + formId + ' :input');
+    for (var i = 0; i < inputs.length; i++) {
+      var input = $(inputs[i]);
+      if (input.attr('validation')) {
+        this.validate(input);
+      }
+    }
+  }
+  
+  this.checkAll = function () {
+    var inputs = $(':input');
+    for (var i = 0; i < inputs.length; i++) {
+      var input = $(inputs[i]);
+      if (input.attr('validation')) {
+        this.validate(input);
+      }
+    }
+  }
+  
   this.validate = function (targetElement) {
 
     var requiredvalidations = targetElement.attr('validation');
@@ -140,10 +160,3 @@ function validateField() {
     }
   }
 }
-
-$(document).ready(function() {
-  $("[validation]").blur(function(event) {
-    var validator = new validateField();
-    validator.validate($(event.target));
-  });
-});
