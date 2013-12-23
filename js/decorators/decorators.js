@@ -33,14 +33,40 @@ function decorate() {
     }
   }
   
+  this.maxlength = function(element, key) {
+    var deleteKeys = new Array(8, 46);
+    var value = element.val();
+    var length = value.length;
+    var maxlenght = element.attr('maxlength');
+    var available = (maxlenght-length);
+
+    if (available == 0) {
+      if (deleteKeys.indexOf(key) == -1) {
+        return false;
+      }
+    }
+    if (deleteKeys.indexOf(key) > -1) {
+      available++;
+    } else {
+      available--;
+    }
+    $('#' + element.attr('id') + 'LengthMsg').html('<br />' + available + ' available characters');
+    return true;
+  }
+  
   function checkAccept(validChars, key) {
     return (validChars.indexOf(key) > -1);
   }
 }
   
 $(document).ready(function() {
-  $("[decoration]").keypress(function(event) {
+  $("[decoration]").keydown(function(event) {
     var validator = new decorate();
     return validator.validate($(event.target), event.which);
   });
+  var mlsetups = $("[decoration~='maxlength']");
+  for (var i = 0; i < mlsetups.length; i++) {
+    var element = $(mlsetups[i]);
+    element.after('<span class="infoMsg" id="' + element.attr('name') + 'LengthMsg"><br />' + (element.attr('maxlength') - element.val().length) + ' available characters</span>');
+  }
 });
