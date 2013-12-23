@@ -8,5 +8,6 @@ $urlPatters = array();
 
 $urlPatterns[] = array('pattern' => '/\/jsvalidators/' ,'handlerFile' => __DIR__.'/../controllers/main.php', 'handlerClass' => 'controllers\Controllers_main', 'handlerMethod' => 'jsvalidators');
 $urlPatterns[] = array('pattern' => '/\/phpvalidators/' ,'handlerFile' => __DIR__.'/../controllers/main.php', 'handlerClass' => 'controllers\Controllers_main', 'handlerMethod' => 'testphpvalidators');
+$urlPatterns[] = array('pattern' => '/\/models/' ,'handlerFile' => __DIR__.'/../controllers/main.php', 'handlerClass' => 'controllers\Controllers_main', 'handlerMethod' => 'modelExample');
 $urlPatterns[] = array('pattern' => '/\//' ,'handlerFile' => __DIR__.'/../controllers/main.php', 'handlerClass' => 'controllers\Controllers_main', 'handlerMethod' => 'index');
 

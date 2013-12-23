@@ -80,4 +80,22 @@ class Controllers_main extends Fwk\Fwk_Controller {
     $this->response->setHeader("Content-Type", "text/html; charset=utf-8");
     $this->response->setBody('<html><body>'.str_replace(PHP_EOL, '<br />', $errorMsg).'</body></html>');
   }
+  
+  public function modelExample($params) {
+    $example = new \Models\Models_Example();
+    $data = array(
+      'user_id' => '1',
+      'username' => 'dummy',
+      'email_address' => 'dummy@mailcatch.com',
+      'active' => '1',
+      'access_level' => '1',
+    );
+    $example->fillData($data);
+    $example->dummy = 'dummyVal';
+  
+    $this->response->setResponseCode("200");
+    $this->response->setHeader("Content-Type", "text/html; charset=utf-8");
+    $this->response->setBody('<html><body>Hello World</body></html>');
+  }
+  
 }
