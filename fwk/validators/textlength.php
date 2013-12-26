@@ -13,7 +13,7 @@ class Fwk_Validators_TextLength extends Fwk_Validators_Base {
   /**
   * Constructor for the class
   * @param mixed Array which can contains min, max or both values to define the range, if one of the options is not present, then that part won't be validated
-  * @returns Fwk_Validators_NumberRange object
+  * @returns Fwk_Validators_TextLength object
   */
   public function __construct($params) {
     $this->min = (isset($params['min'])?$params['min']:null);

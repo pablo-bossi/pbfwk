@@ -63,6 +63,9 @@ class Controllers_main extends Fwk\Fwk_Controller {
     $error = $validator8->validate(new fwk\validators\Fwk_Validators_Required())->validate(new fwk\validators\Fwk_Validators_Regexp(fwk\validators\Fwk_Validators_Regexp::NOT_MATCH, '/[0-9]+/'))->isValid();
     $isValid = $isValid && $error;
     
+    $validator9 = new \fwk\validators\Fwk_Validators_Validate('requiredText9', 'Holas');
+    $error = $validator9->validate(new fwk\validators\Fwk_Validators_Required())->validate(new fwk\validators\Fwk_Validators_Catalog(array('Hola', 'Chau')))->isValid();
+    $isValid = $isValid && $error;
     
     $errorMsg = "";
     if (! $isValid) {
@@ -74,6 +77,7 @@ class Controllers_main extends Fwk\Fwk_Controller {
       $errorMsg .= $validator6->getErrors();
       $errorMsg .= $validator7->getErrors();
       $errorMsg .= $validator8->getErrors();
+      $errorMsg .= $validator9->getErrors();
     }
     
     $this->response->setResponseCode("200");
