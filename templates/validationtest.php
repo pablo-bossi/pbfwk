@@ -11,7 +11,7 @@
     <br /><input type="text" name="requiredText5" id="requiredText5" value="" placeholder="email" validation="required email" decoration="email" />
     <br /><input type="text" name="requiredText6" id="requiredText6" value="" placeholder="custom not accept numbers" validation="required" decoration="custom" />
     <br /><input type="text" name="requiredText8" id="requiredText8" value="" placeholder="Max Length Decoration" validation="required" decoration="maxlength" maxlength="7" />
-    <br /><input type="button" value="Does nothing" id="submitBtn"/>
+    <br /><input type="button" value="<?php echo _('Does nothing'); ?>" id="submitBtn"/>
   </form>
   <?php fwk\Fwk_JsEnqueuer::getInstance()->enqueue(fwk\Fwk_JsEnqueuer::JS_FILE, "http://code.jquery.com/jquery-2.0.3.min.js"); ?>
   <?php fwk\Fwk_JsEnqueuer::getInstance()->enqueue(fwk\Fwk_JsEnqueuer::JS_FILE, "/js/validators/locals/errors-en.js"); ?>

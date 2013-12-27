@@ -71,7 +71,7 @@ abstract class Models_Base {
           $this->$key = $value;
           $this->dirty = true;
         } else {
-          throw new \fwk\exceptions\Fwk_Exceptions_InvalidInput('Invalid value ('.$value.') for property '.$key);
+          throw new \fwk\exceptions\Fwk_Exceptions_InvalidInput(sprintf(_('Invalid value (%s) for property %s'), $value, $key));
         }
       } else {
         $this->$key = $value;

@@ -10,6 +10,8 @@ class Fwk_Router {
   private $className;
   private $action;
   private $params;
+  private $language;
+  private $country;
 
   /**
   * Parses the url to locate proper controller and method to handle the requested

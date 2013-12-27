@@ -35,7 +35,7 @@ class Fwk_Validators_Regexp extends Fwk_Validators_Base {
   public function validate($field, $value) {
     if (! empty($value) && ($value != '')) {
       if (preg_match($this->pattern, $value) == $this->type) {
-        throw new \fwk\exceptions\Fwk_Exceptions_InvalidInput($field.' does not match expected format');
+        throw new \fwk\exceptions\Fwk_Exceptions_InvalidInput(sprintf(_('%s does not match the expected format'), $field));
       }
     }
     return true;

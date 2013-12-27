@@ -33,10 +33,10 @@ class Fwk_Validators_TextLength extends Fwk_Validators_Base {
       //If is a valid numeric number check that is inside proper ranges
       $error = '';
       if ((! empty($this->min)) && ($this->min > strlen($value))) {
-        $error = $field.' should be longer than '.$this->min.' characters'.PHP_EOL;
+        $error = sprintf(_('%s should be longer than %s'), $field, $this->min).PHP_EOL;
       }
       if ((! empty($this->max)) && ($this->max < strlen($value))) {
-        $error = $field.' should be shorter than '.$this->max.' characters'.PHP_EOL;
+        $error = sprintf(_('%s should be shorter than %s'), $field, $this->max).PHP_EOL;
       }
       if ($error != '') {
         throw new \fwk\exceptions\Fwk_Exceptions_InvalidInput($error);

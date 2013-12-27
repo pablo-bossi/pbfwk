@@ -36,10 +36,10 @@ class Fwk_Validators_NumberRange extends Fwk_Validators_Base {
         //If is a valid numeric number check that is inside proper ranges
         $error = '';
         if ((! empty($this->min)) && ($this->min > $value)) {
-          $error = $field.' should be higher than '.$this->min.PHP_EOL;
+          $error = sprintf(_('%s should be higher than %s'), $field, $this->min).PHP_EOL;
         }
         if ((! empty($this->max)) && ($this->max < $value)) {
-          $error = $field.' should be lower than '.$this->max.PHP_EOL;
+          $error = sprintf(_('%s should be lower than %s'), $field, $this->max).PHP_EOL;
         }
       }
       if ($error != '') {

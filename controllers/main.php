@@ -11,7 +11,7 @@ class Controllers_main extends Fwk\Fwk_Controller {
     $viewName = "index";
     $view = new Fwk\Fwk_View($viewName);
 
-    $view->message = 'Hello World';
+    $view->message = _('Hello World');
     
     $this->response->setResponseCode("200");
     $this->response->setHeader("Content-Type", "text/html; charset=utf-8");
@@ -99,7 +99,7 @@ class Controllers_main extends Fwk\Fwk_Controller {
   
     $this->response->setResponseCode("200");
     $this->response->setHeader("Content-Type", "text/html; charset=utf-8");
-    $this->response->setBody('<html><body>Hello World</body></html>');
+    $this->response->setBody('<html><body>'._('Hello World').'</body></html>');
   }
   
 }

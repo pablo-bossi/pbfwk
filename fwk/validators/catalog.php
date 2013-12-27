@@ -27,7 +27,7 @@ class Fwk_Validators_Catalog extends Fwk_Validators_Base {
   */
   public function validate($field, $value) {
     if (! in_array($value, $this->options)) {
-        throw new \fwk\exceptions\Fwk_Exceptions_InvalidInput($field.' is not a valid value');
+        throw new \fwk\exceptions\Fwk_Exceptions_InvalidInput(sprintf(_('%s is not a valid value'), $field));
     }
     return true;
   }

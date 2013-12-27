@@ -15,11 +15,22 @@ session_start();
 
 require "constants/constants.php";
 require "config/urlmanagerconf.php";
+require "config/i18n.php";
 require "fwk/autoloader.php";
+require "fwk/i18n.php";
 
 spl_autoload_register('fwk\Fwk_Autoloader::Loader');
 
 try {
+  if (! empty($localeManager)) {
+    $localizationManager = new $localeManager($defaultLocale);
+  } else {
+    $localizationManager = null;
+  }
+
+  \fwk\Fwk_I18N::setup($validLocales, $defaultLocale, $translationDomains, $localizationManager);
+  \fwk\Fwk_I18N::set();
+  
   $router = new fwk\Fwk_Router($_SERVER["REQUEST_URI"], $urlPatterns, $_SERVER["DOCUMENT_ROOT"].'/controllers', $_REQUEST);
   
   $file       = $router->controllerFile;
