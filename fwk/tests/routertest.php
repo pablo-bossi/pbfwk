@@ -15,7 +15,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     $this->urlPatterns[] = array('pattern' => '/^\/micasa\/$/' ,'handlerFile' => __DIR__.'/../../controllers/homes.php', 'handlerClass' => 'controllers\Controllers_Homes', 'handlerMethod' => 'buy');
     $this->urlPatterns[] = array('pattern' => '/\/la\/micasa\/fea/' ,'handlerFile' => __DIR__.'/../../controllers/homes.php', 'handlerClass' => 'controllers\Controllers_Homes', 'handlerMethod' => 'belleza', 'extraParams' => array('type' => 'fea'));
     $this->urlPatterns[] = array('pattern' => '/\/pais\/([a-z]*)\/viajar/' ,'handlerFile' => __DIR__.'/../../controllers/countries.php', 'handlerClass' => 'controllers\Controllers_Countries', 'handlerMethod' => 'go', 'extraParams' => array('param1' => 'viajar', 'country' => '$1'));
-    
+
+    $this->staticContentPaths = array();
+    $this->staticContentPaths[] = '/templates/';
+    $this->staticContentPaths[] = '/js/';
+    $this->staticContentPaths[] = '/css/';    
+
     $this->request = array('user' => 1);
   }
 
@@ -23,7 +28,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
   * @dataProvider uriProvider
   */
   public function testconstructor($uri, $file, $class, $method, $params = array()) {
-    $router = new fwk\Fwk_Router($uri, $this->urlPatterns, $_SERVER["DOCUMENT_ROOT"].'/controllers', $this->request);
+    $router = new fwk\Fwk_Router($uri, $this->urlPatterns, $_SERVER["DOCUMENT_ROOT"].'/controllers', $this->staticContentPaths, $this->request);
     
     $this->assertEquals($file, $router->controllerFile);
     $this->assertEquals($class, $router->className);
@@ -41,6 +46,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
       array('/user/', $_SERVER["DOCUMENT_ROOT"].'/controllers/user.php', 'controllers\Controllers_user', 'index', array('user' => 1)),
       array('/user/list', $_SERVER["DOCUMENT_ROOT"].'/controllers/user.php', 'controllers\Controllers_user', 'list', array('user' => 1)),
       array('/user/customer/list', $_SERVER["DOCUMENT_ROOT"].'/controllers/user/customer.php', 'controllers\user\Controllers_customer', 'list', array('user' => 1)),
+      array('/templates/test.php', '/home/projects/genericFwk/fwk/staticfilesrenderer.php', '\fwk\Fwk_StaticFilesRenderer', 'render', array('user' => 1, 'viewFile' => $_SERVER["DOCUMENT_ROOT"].'/templates/test.php')),
+      array('/css/test.css', '/home/projects/genericFwk/fwk/staticfilesrenderer.php', '\fwk\Fwk_StaticFilesRenderer', 'render', array('user' => 1, 'viewFile' => $_SERVER["DOCUMENT_ROOT"].'/css/test.css')),
+      array('/js/jquery.js', '/home/projects/genericFwk/fwk/staticfilesrenderer.php', '\fwk\Fwk_StaticFilesRenderer', 'render', array('user' => 1, 'viewFile' => $_SERVER["DOCUMENT_ROOT"].'/js/jquery.js')),
     );
   }
 }

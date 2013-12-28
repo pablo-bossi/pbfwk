@@ -22,37 +22,18 @@ class Fwk_Router {
   * @param mixed[] asociative array with the request variables
   * @returns Fwk_Router object
   */
-  public function __construct($uri, $customRules, $controllersRoot, $params) {
+  public function __construct($uri, $customRules, $controllersRoot, $staticContentFolders, $params) {
 
+    $done = $this->checkStaticContent($uri, $staticContentFolders, $params);
+    if (! $done) {
+      $done = $this->checkCustomRules($uri, $customRules, $params);
+    }
+    if ($done) {
+      return;
+    }
+    
     $urlParts = parse_url($uri);
     $url = $urlParts['path'];
-
-    if (is_array($customRules) && ! empty($customRules)) {
-      $done = false;
-      $counter = 0;
-      while (! $done && $counter < count($customRules)) {
-        if (preg_match($customRules[$counter]['pattern'], $uri, $matches) > 0) {
-          $this->controllerFile = $customRules[$counter]['handlerFile'];
-          $this->className = $customRules[$counter]['handlerClass'];
-          $this->action = $customRules[$counter]['handlerMethod'];
-          $this->params = $params;
-          if (isset($customRules[$counter]['extraParams']) && is_array($customRules[$counter]['extraParams']) && ! empty($customRules[$counter]['extraParams'])) { 
-            foreach($customRules[$counter]['extraParams'] as $key => $value) {
-              if (preg_match('/\$([0-9]*)/', $value, $submatch)) {
-                $this->params[$key] = $matches[$submatch[1]];
-              } else {
-                $this->params[$key] = $value;
-              }
-            }
-          }
-          $done = true;
-        }
-        $counter++;
-      }
-      if ($done) {
-        return;
-      }
-    }
   
     if (substr($url,0,1) == '/') {
       $url = substr($url, 1);
@@ -76,6 +57,56 @@ class Fwk_Router {
       $this->action = 'index';
     }
     $this->params = $params;
+  }
+  
+  protected function checkStaticContent($uri, $staticContentFolders, $params) 
+  {
+    $done = false;
+    if (is_array($staticContentFolders) && ! empty($staticContentFolders)) {
+      $counter = 0;
+      while ($counter < count($staticContentFolders) && ! $done) {
+        if (strpos($uri, $staticContentFolders[$counter]) !== false) {
+          $done = true;
+        }
+        $counter++;
+      }
+      if ($done) {
+        $this->controllerFile = __DIR__.'/staticfilesrenderer.php';
+        $this->className = '\fwk\Fwk_StaticFilesRenderer';
+        $this->action = 'render';
+        $params['viewFile'] = $_SERVER['DOCUMENT_ROOT'].$uri;
+        $this->params = $params;
+      }
+    }
+    return $done;
+  }
+  
+  protected function checkCustomRules($uri, $customRules, $params) 
+  {
+    $done = false;
+    if (is_array($customRules) && ! empty($customRules)) {
+      $counter = 0;
+      while (! $done && $counter < count($customRules)) {
+        if (preg_match($customRules[$counter]['pattern'], $uri, $matches) > 0) {
+          $this->controllerFile = $customRules[$counter]['handlerFile'];
+          $this->className = $customRules[$counter]['handlerClass'];
+          $this->action = $customRules[$counter]['handlerMethod'];
+          $this->params = $params;
+          if (isset($customRules[$counter]['extraParams']) && is_array($customRules[$counter]['extraParams']) && ! empty($customRules[$counter]['extraParams'])) { 
+            foreach($customRules[$counter]['extraParams'] as $key => $value) {
+              if (preg_match('/\$([0-9]*)/', $value, $submatch)) {
+                $this->params[$key] = $matches[$submatch[1]];
+              } else {
+                $this->params[$key] = $value;
+              }
+            }
+          }
+          $done = true;
+        }
+        $counter++;
+      }
+    }
+    return $done;
   }
   
   /**

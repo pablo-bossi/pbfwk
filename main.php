@@ -31,7 +31,7 @@ try {
   \fwk\Fwk_I18N::setup($validLocales, $defaultLocale, $translationDomains, $localizationManager);
   \fwk\Fwk_I18N::set();
   
-  $router = new fwk\Fwk_Router($_SERVER["REQUEST_URI"], $urlPatterns, $_SERVER["DOCUMENT_ROOT"].'/controllers', $_REQUEST);
+  $router = new fwk\Fwk_Router($_SERVER["REQUEST_URI"], $urlPatterns, $_SERVER["DOCUMENT_ROOT"].'/controllers', $staticContentPaths, $_REQUEST);
   
   $file       = $router->controllerFile;
   $className  = $router->className;

@@ -11,3 +11,11 @@ $urlPatterns[] = array('pattern' => '/\/phpvalidators/' ,'handlerFile' => __DIR_
 $urlPatterns[] = array('pattern' => '/\/models/' ,'handlerFile' => __DIR__.'/../controllers/main.php', 'handlerClass' => 'controllers\Controllers_main', 'handlerMethod' => 'modelExample');
 $urlPatterns[] = array('pattern' => '/\//' ,'handlerFile' => __DIR__.'/../controllers/main.php', 'handlerClass' => 'controllers\Controllers_main', 'handlerMethod' => 'index');
 
+/**
+* Files included in the array staticContentPaths will we rendered as they are without exceuting actions
+*
+*/
+$staticContentPaths = array();
+$staticContentPaths[] = '/templates/';
+$staticContentPaths[] = '/js/';
+$staticContentPaths[] = '/css/';
