@@ -29,16 +29,16 @@ class Fwk_Validators_NumberRange extends Fwk_Validators_Base {
   */
   public function validate($field, $value) {
     //If empty no validation happens (Required validator is for this purpose)
-    if ((! empty($value)) && ($value != '')) {
+    if (($value != null) && ($value != '')) {
       //Check value is numeric
       $numberValidation = new \fwk\validators\Fwk_Validators_Number();
       if ($numberValidation->validate($field, $value)) {
         //If is a valid numeric number check that is inside proper ranges
         $error = '';
-        if ((! empty($this->min)) && ($this->min > $value)) {
+        if ((! empty($this->min)) && ($this->min >= $value)) {
           $error = sprintf(_('%s should be higher than %s'), $field, $this->min).PHP_EOL;
         }
-        if ((! empty($this->max)) && ($this->max < $value)) {
+        if ((! empty($this->max)) && ($this->max <= $value)) {
           $error = sprintf(_('%s should be lower than %s'), $field, $this->max).PHP_EOL;
         }
       }

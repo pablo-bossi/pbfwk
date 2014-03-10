@@ -1,11 +1,14 @@
 function decorate() {
 
-  this.validate = function (targetElement, key) {
+  this.validate = function (type, targetElement, key) {
 
     var decorateType = targetElement.attr('decoration');
-    var decorator = this[decorateType];
-    
-    return decorator(targetElement, key);
+    if ((type == 'keypress' && decorateType != 'maxlength') || (type == 'keydown' && decorateType == 'maxlength')) {
+      var decorator = this[decorateType];
+      return decorator(targetElement, key);
+    } else {
+      return true;
+    }
   }
 
   this.int = function (element, key) {
@@ -19,13 +22,12 @@ function decorate() {
   }
   
   this.email = function(element, key) {
-    var notAcceptedChars = new Array(32, 34, 40, 41, 44, 58, 59, 60, 62, 91, 92, 93, 188, 190);
+    var notAcceptedChars = new Array(32, 34, 40, 41, 44, 58, 59, 60, 62, 91, 92, 93, 188);
     var ok = ! checkAccept(notAcceptedChars, key);
     
     if (! ok) {
       return false;
     }
-    
     if (key == 64) {
       if (element.val().indexOf('@') > -1) {
         return false;
@@ -46,7 +48,9 @@ function decorate() {
       }
     }
     if (deleteKeys.indexOf(key) > -1) {
-      available++;
+      if (available < maxlenght) {
+        available++;
+      }
     } else {
       available--;
     }
@@ -58,15 +62,26 @@ function decorate() {
     return (validChars.indexOf(key) > -1);
   }
 }
-  
-$(document).ready(function() {
-  $("[decoration]").keydown(function(event) {
-    var validator = new decorate();
-    return validator.validate($(event.target), event.which);
+
+function bindDecorators() {
+  $("[decoration]").bind('keypress', function(event) { 
+      return applyDecoration(event); 
   });
+  $("[decoration~='maxlength']").bind('keydown', function(event) { 
+      return applyDecoration(event); 
+  });
+}
+
+function applyDecoration(event) {
+  var validator = new decorate();
+  return validator.validate(event.type, $(event.target), event.which);
+}
+
+$(document).ready(function() {
+  bindDecorators();
   var mlsetups = $("[decoration~='maxlength']");
   for (var i = 0; i < mlsetups.length; i++) {
     var element = $(mlsetups[i]);
-    element.after('<span class="infoMsg" id="' + element.attr('name') + 'LengthMsg"><br />' + (element.attr('maxlength') - element.val().length) + ' available characters</span>');
+    element.after('<span class="infoMsg" id="' + element.attr('id') + 'LengthMsg"><br />' + (element.attr('maxlength') - element.val().length) + ' available characters</span>');
   }
 });

@@ -6,6 +6,7 @@ class Fwk_Response {
    private $code = null;
    private $body;
    private $headers = array();
+   private $reponseCookies = array();
    private $responseCodes = array(
       "200" => "OK",
       "301" => "Moved Permanently",
@@ -18,6 +19,21 @@ class Fwk_Response {
       "500" => "Internal Server Error",
       "503" => "Service Unavailable",
    );
+
+  /**
+  * Method to set cookies on the response allowing to store user information
+  * @param Mixed $cookie Array with parameters to set the cookie information on the response
+  */
+  public function setResponseCookie($name, $value, $expirationTime = 0, $path = '/', $domain = DEFAULT_COOKIES_DOMAIN, $secure = false, $httponly = false) {
+    $this->reponseCookies[COOKIES_PREFIX.$name] = array(
+      'value' => $value,
+      'expires' => $expirationTime,
+      'path' => $path,
+      'domain' => $domain,
+      'secure' => $secure,
+      'httpOnly' => $httponly,
+      );
+  }
 
   /**
   * Sets the response code for the request. As the fwk is meant to work over Http it should be an http response code
@@ -64,7 +80,9 @@ class Fwk_Response {
       foreach ($this->headers as $header) {
         header($header);
       }
-      
+      foreach($this->reponseCookies as $key => $params) {
+        setcookie($key, $params['value'], $params['expires'], $params['path'], $params['domain'], $params['secure'], $params['httpOnly']);
+      }
       echo $this->body;
    }
 }

@@ -16,7 +16,7 @@ Class Fwk_Validators_Required extends Fwk_Validators_Base {
   *          Throws an \fwk\exceptions\Fwk_Exceptions_InvalidInput exception in case the validation is not successfull
   */
   public function validate($field, $value) {
-    if (empty($value) || ($value == '')) {
+    if (($value === null) || ($value == '')) {
       throw new \fwk\exceptions\Fwk_Exceptions_InvalidInput(sprintf(_('%s is required'), $field));
     }
     return true;

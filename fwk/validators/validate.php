@@ -33,7 +33,7 @@ class Fwk_Validators_Validate
     try {
       $validator->validate($this->field, $this->value);
     } catch (\Exception $ex) {
-      $this->errorMessage .= "- ".$ex->getMessage()."\n";
+      $this->errorMessage .= "- ".$ex->getMessage().PHP_EOL;
       $this->success = false;
     }
     return $this;

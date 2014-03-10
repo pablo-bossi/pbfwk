@@ -73,7 +73,7 @@ class Fwk_View
           $moduleView->$key = $value;
         }
      }
-     return $moduleView->render();
+     $content = $moduleView->render();
      unset ($moduleView);
 
      return $content;

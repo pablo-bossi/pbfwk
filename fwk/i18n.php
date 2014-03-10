@@ -59,10 +59,10 @@ class Fwk_I18N
   */
   private static function switchLocale($languageTag) {
     //Initialize gettext
-    putenv('LANG='.$languageTag); 
-    setlocale(LC_ALL, $languageTag); 
+    putenv('LANG='.$languageTag.'.UTF-8'); 
+    setlocale(LC_ALL, $languageTag.'.UTF-8'); 
     bindtextdomain(self::$txDomain, self::$enabledLocales[$languageTag]);
-    bind_textdomain_codeset(self::$txDomain, 'UTF-8'); 
+    bind_textdomain_codeset(self::$txDomain, 'utf-8'); 
     textdomain(self::$txDomain);
   }
   

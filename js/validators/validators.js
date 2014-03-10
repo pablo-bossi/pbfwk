@@ -24,21 +24,28 @@ function validateField() {
 
     var requiredvalidations = targetElement.attr('validation');
     var validations = requiredvalidations.split(' ');
-    var error = '';
+    var error = new Array();
     var validationResult = '';
     
     for (var i = 0; i < validations.length; i++) {
       validator = this[validations[i]];
       validationResult = validator(targetElement);
-      if (validationResult.trim() != '') {
-        error += validationResult + '<br />';
+      if (validationResult) {
+        if (Array.isArray(validationResult)) {
+          for (var j = 0; j < validationResult.length; j++) {
+            error.push(validationResult[j]);
+          }
+        } else {
+          error.push(validationResult);
+        }
       }
     }
-    
-    if (error.trim() != '') {
+    if (error.length > 0) {
       showError(targetElement, error);
+      return error;
     } else {
       hideError(targetElement);
+      return;
     }
   }
 
@@ -48,7 +55,7 @@ function validateField() {
     if (value.trim() == '') {
       return errorRequired.replace('[%fieldname%]', name);
     } else {
-      return '';
+      return;
     }
   }
   
@@ -59,7 +66,7 @@ function validateField() {
     var name = element.attr('name');
     
     if (value.trim() == '') {
-      return '';
+      return;
     }
     if (isNumber(element) != '') {
       return errorIsInt.replace('[%fieldname%]', name);
@@ -68,32 +75,36 @@ function validateField() {
       if (! isInt) {
         return errorIsInt.replace('[%fieldname%]', name);
       } else {
-        return '';
+        return;
       }
     }
   }
 
   this.numericRange = function(element) {
-
     var value = element.val();
     var name = element.attr('name');
     var minValue = element.attr('minValue');
     var maxValue = element.attr('maxValue');
-    
+
     if (value.trim() == '') {
-      return '';
+      return;
     }
     if (isNumber(element) != '') {
       return errorNumber.replace('[%fieldname%]', name);
     } else {
-      var error = '';
+      var error = new Array();
       if ((minValue) && (parseFloat(value) < parseFloat(minValue))) {
-        error += errorNumericRangeMin.replace('[%fieldname%]', name).replace('[%minValue%]', minValue);
+        error.push(errorNumericRangeMin.replace('[%fieldname%]', name).replace('[%minValue%]', minValue));
       }
       if ((maxValue) && (parseFloat(value) > parseFloat(maxValue))) {
-        error += errorNumericRangeMax.replace('[%fieldname%]', name).replace('[%maxValue%]', maxValue);
+        error.push(errorNumericRangeMax.replace('[%fieldname%]', name).replace('[%maxValue%]', maxValue));
       }
-      return error;
+      
+      if (error.length > 0) {
+        return error;
+      }
+      else
+        return;
     }
   }
   
@@ -103,14 +114,19 @@ function validateField() {
     var minLength = element.attr('minlength');
     var maxLength = element.attr('maxlength');
 
-    var error = '';
+    var error = new Array();
     if ((minLength) && (parseInt(value.length) < parseInt(minLength))) {
-      error += errorLengthMin.replace('[%fieldname%]', name).replace('[%minLength%]', minLength);
+      error.push(errorLengthMin.replace('[%fieldname%]', name).replace('[%minLength%]', minLength));
     }
     if ((maxLength) && (parseInt(value.length) > parseInt(maxLength))) {
-      error += errorLengthMax.replace('[%fieldname%]', name).replace('[%maxLength%]', maxLength);
+      error.push(errorLengthMax.replace('[%fieldname%]', name).replace('[%maxLength%]', maxLength));
     }
-    return error;
+    
+    if (error.length > 0) {
+      return error;
+    } else {
+      return;
+    }
   }
 
   this.email = function (element) {
@@ -118,7 +134,7 @@ function validateField() {
     if (! re.test(element.val())) {
       return errorEmail.replace('[%fieldname%]', name);
     }
-    return '';
+    return;
   }
   
 
@@ -139,10 +155,15 @@ function validateField() {
     }
   }
   
-  function showError(element, message) {
+  function showError(element, errors) {
     var name = element.attr('name');
     var errorTag = $('#' + name + 'error');
-
+    var message = '';
+    
+    for (var i = 0; i < errors.length; i++) {
+      message += errors[i] + '<br />';
+    }
+    
     if (errorTag.length == 0) {
       element.after('<span class="errorMsg" id="' + name + 'error"><img src="/imgs/error.jpg" border="0" /><br />' + message + '</span>');
     } else {

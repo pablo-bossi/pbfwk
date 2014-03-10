@@ -10,7 +10,7 @@ class Fwk_StaticFilesRenderer extends Fwk_Controller
   public function render($params) {
     try {
       ob_start();
-      require($params['viewFile']);
+      require(strtok($params['viewFile'], '?'));
       $content = ob_get_contents(); 
       ob_end_clean();
       $this->response->setResponseCode("200");
@@ -19,7 +19,7 @@ class Fwk_StaticFilesRenderer extends Fwk_Controller
     } catch (Exception $ex) {
       $this->response->setResponseCode("404");
       $this->response->setHeader("Content-Type", "text/html; charset=utf-8");
-      $this->response->setBody('Requested file ['.$params['viewFile'].'] does not exist. Referer: '.$_SERVER['HTTP_REFERER']);
+      $this->response->setBody('Requested file ['.strtok($params['viewFile'], '?').'] does not exist. Referer: '.$_SERVER['HTTP_REFERER']);
     }
   }
 }

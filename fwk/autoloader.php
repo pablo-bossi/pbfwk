@@ -63,7 +63,7 @@ class Fwk_Autoloader {
   * @returns the path to the file were the class is stored
   */
   private static function _checkSpecialCases($className) {
-    if ($className == "cache") {
+    if (($className == "cache") || ($className == "cacheKeyParameters")) {
       return $_SERVER["DOCUMENT_ROOT"].'/dataaccess/cacheconn.php';
     }
     if ($className == "dbConnProvider") {
