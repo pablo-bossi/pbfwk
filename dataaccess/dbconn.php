@@ -104,7 +104,7 @@ class dbConn
           $iCounter++;
         }
         
-        $bind = call_user_func_array(array(&$preparedStatement, "bind_param"), array_merge(array($types), $this->refValues($values)));
+        $bind = call_user_func_array(array(&$preparedStatement, "bind_param"), $this->refValues($types, $values));
 
         if (! $bind)
         {
@@ -126,12 +126,13 @@ class dbConn
   * @param mixed[] $values array of parameter values
   * @return mixed[] array of references to values
   */
-  private function refValues($values) {
+  private function refValues($types, $values) {
     $refs = array();
+    $refs[] = $types;
 
     foreach ($values as $key => $value)
     {
-      $refs[$key] = &$values[$key]; 
+      $refs[] = &$values[$key]; 
     }
 
     return $refs; 
